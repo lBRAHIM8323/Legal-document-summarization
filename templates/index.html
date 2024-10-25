@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judgement Summarizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        h1 {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Judgement Summarizer</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="judgement_text" class="form-label">Enter Judgement Text:</label>
+                        <textarea id="judgement_text" name="judgement_text" class="form-control" rows="8">{{ judgement_text }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pdf_file" class="form-label">Upload PDF (optional):</label>
+                        <input type="file" id="pdf_file" name="pdf_file" class="form-control" accept="application/pdf">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="summary_length" class="form-label">Summary Length:</label>
+                        <input type="number" id="summary_length" name="summary_length" class="form-control" value="100">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Generate Summary</button>
+                </form>
+            </div>
+        </div>
+
+        {% if summary %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h3 class="text-primary">Summary</h3>
+                <p>{{ summary }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if keywords %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h3 class="text-primary">Keywords</h3>
+                <p>{{ keywords }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
