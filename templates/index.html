@@ -3,74 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Judgement Summarizer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document Summarizer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Dark mode styling */
         body {
-            background-color: #f8f9fa;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
         }
-        .container {
-            max-width: 800px;
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
         }
-        .card {
+        .input-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 600px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .attachment-icon {
+            font-size: 20px;
+            color: #e0e0e0;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .input-container input[type="file"] {
+            display: none;
+        }
+        .input-container textarea {
+            background-color: #333;
+            color: #e0e0e0;
+            flex: 1;
+            border: none;
+            resize: none;
+            height: 40px;
+            padding: 10px;
+            border-radius: 20px;
+            outline: none;
+        }
+        .send-button {
+            background-color: #6200ea;
+            color: #e0e0e0;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .send-button:hover {
+            background-color: #3700b3;
+        }
+        .output-container {
             margin-top: 20px;
+            background-color: #1e1e1e;
+            padding: 15px;
             border-radius: 10px;
-        }
-        .form-label {
-            font-weight: bold;
-        }
-        h1 {
-            color: #007bff;
         }
     </style>
 </head>
-<body class="bg-light">
-
-    <div class="container py-5">
-        <h1 class="text-center mb-4">Judgement Summarizer</h1>
-
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="judgement_text" class="form-label">Enter Judgement Text:</label>
-                        <textarea id="judgement_text" name="judgement_text" class="form-control" rows="8">{{ judgement_text }}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pdf_file" class="form-label">Upload PDF (optional):</label>
-                        <input type="file" id="pdf_file" name="pdf_file" class="form-control" accept="application/pdf">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="summary_length" class="form-label">Summary Length:</label>
-                        <input type="number" id="summary_length" name="summary_length" class="form-control" value="100">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Generate Summary</button>
-                </form>
-            </div>
+<body>
+    <div class="chat-container">
+        <h1 class="text-center">Document Summarizer</h1>
+        <!-- Output section for summary and keywords -->
+        <div class="output-container">
+            <h5>Summary:</h5>
+            <p>{{ summary }}</p>
+            <h5>Keywords:</h5>
+            <p>{{ keywords }}</p>
+            <h5>Judgement Text:</h5>
+            <p>{{ judgement_text }}</p>
         </div>
-
-        {% if summary %}
-        <div class="card mt-4">
-            <div class="card-body">
-                <h3 class="text-primary">Summary</h3>
-                <p>{{ summary }}</p>
-            </div>
-        </div>
-        {% endif %}
-
-        {% if keywords %}
-        <div class="card mt-4">
-            <div class="card-body">
-                <h3 class="text-primary">Keywords</h3>
-                <p>{{ keywords }}</p>
-            </div>
-        </div>
-        {% endif %}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Input box fixed at the bottom -->
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <div class="input-container">
+            <label for="file-input" class="attachment-icon">
+                <i class="fas fa-paperclip"></i>
+            </label>
+            <input type="file" id="file-input" name="pdf_file" accept=".pdf">
+            <textarea name="judgement_text" placeholder="Enter text or upload a PDF" required></textarea>
+            <input type="number" name="summary_length" placeholder="Summary Length" min="10" max="200" required>
+            <button type="submit" class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </form>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
